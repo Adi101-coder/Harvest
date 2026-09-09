@@ -331,29 +331,29 @@
 }
 
 .video-slot {
-  display: grid;
-  place-items: center;
+  overflow: hidden;
   min-height: 18rem;
   border-radius: 1.2rem;
   background: #20231f;
   color: #c8ec5a;
-  text-align: center;
 }
 
-.video-slot button {
-  width: 3.4rem;
-  height: 3.4rem;
+.video-slot iframe,
+.video-slot video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border: 0;
-  border-radius: 50%;
-  background: #c8ec5a;
-  color: #20231f;
-  font-size: 1.1rem;
+  object-fit: cover;
+  background: #111;
 }
 
 .video-slot p {
-  margin: 0.8rem 1rem 0;
+  margin: 0;
+  padding: 0.75rem 1rem 0.9rem;
   color: #9aa397;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
 }
 
 .pyramid-panel { overflow: hidden; }

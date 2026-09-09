@@ -1,6 +1,11 @@
 import { useState } from 'react'
+import type { SyntheticEvent } from 'react'
 import { MixRing, TamBars } from '../components/Graphics'
 import './InfoPages.css'
+
+function lockPlayback(event: SyntheticEvent<HTMLVideoElement>) {
+  event.currentTarget.playbackRate = 1.15
+}
 
 const claims = [
   {
@@ -151,10 +156,17 @@ export default function DocsPage() {
           <p>{tasks[task].copy}</p>
         </div>
         <div className="video-slot">
-          <button type="button" aria-label="Play pick-and-place reference">
-            ▶
-          </button>
-          <p>Pick-and-place reference skill — drop the video file here when you have it.</p>
+          <video
+            src="/videoplayback.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            onLoadedMetadata={lockPlayback}
+            onPlay={lockPlayback}
+            aria-label="Unitree G1 pick-and-place with NVIDIA Isaac GR00T"
+          />
+          <p>Unitree G1 · NVIDIA Isaac GR00T. Looped at 1.15×. Mute on so the page does not shout.</p>
         </div>
       </section>
 
