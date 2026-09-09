@@ -18,7 +18,7 @@ export default function Header() {
     <header className="header">
       <div className="header__bar">
         <NavLink to="/" className="brand" onClick={() => setOpen(false)}>
-          <span className="brand__mark" aria-hidden="true">A</span>
+          <img className="brand__mark" src="/logo.png" alt="" />
           <span>
             HARVEST
             <small>fictional company</small>

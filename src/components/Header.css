@@ -38,14 +38,11 @@
 }
 
 .brand__mark {
-  display: grid;
-  place-items: center;
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 50%;
-  background: #c48a2a;
-  color: #fff8ee;
-  font-size: 0.78rem;
+  width: 2.45rem;
+  height: 2.45rem;
+  object-fit: contain;
+  border-radius: 0.35rem;
+  background: #f7f3ea;
 }
 
 .nav {
