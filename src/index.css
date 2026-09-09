@@ -1,0 +1,96 @@
+:root {
+  --bg: #f5f2ea;
+  --panel: #f3eadb;
+  --ink: #2a2a2a;
+  --muted: #8a8174;
+  --gold: #c48a2a;
+  --gold-card: #cc953a;
+  --cream-card: #eee1ce;
+  --cyan: #00e8ff;
+  --font: Inter, "Helvetica Neue", Arial, sans-serif;
+  --display: "Archivo Black", Impact, sans-serif;
+  --max: 74rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.6rem;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: min(100% - 2rem, var(--max));
+  margin: 2rem auto 4rem;
+}
+
+.page-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.page-lead {
+  color: var(--muted);
+  max-width: 42rem;
+}
+
+.btn {
+  display: inline-flex;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.7rem;
+  background: var(--ink);
+  color: #f5f2ea;
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
