@@ -127,7 +127,7 @@ export default function DataPage() {
       </nav>
 
       <header id="brief" className="info__hero">
-        <p>01 — Importance of RWA datasets</p>
+        <p>01 — Importance of RAW datasets</p>
         <h1>Robots cannot learn the world from the internet.</h1>
         <p className="info__lead">
           Embodied models need synchronized records of how machines see, move and touch. That data is scarce,

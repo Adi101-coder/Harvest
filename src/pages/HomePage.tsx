@@ -11,7 +11,7 @@ const stats = [
 
 const homeSections = [
   { href: '#home', label: 'Home' },
-  { href: '#rwa', label: 'RWA datasets' },
+  { href: '#rwa', label: 'RAW datasets' },
   { href: '#nvidia', label: 'NVIDIA program' },
   { href: '#tokenization', label: 'Tokenization' },
   { href: '#process', label: 'Process' },
@@ -334,7 +334,7 @@ export default function HomePage() {
 
       <section id="rwa" className="story">
         <div className="story__head">
-          <p className="kicker">01 — Importance of RWA datasets</p>
+          <p className="kicker">01 — Importance of RAW datasets</p>
           <h2>Robots cannot learn the world from the internet.</h2>
         </div>
         <p className="story__lead">
