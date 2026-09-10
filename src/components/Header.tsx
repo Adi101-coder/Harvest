@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { CSSProperties } from 'react'
+import { createPortal } from 'react-dom'
 import { NavLink } from 'react-router-dom'
 import './Header.css'
 
@@ -109,23 +110,13 @@ export default function Header() {
           <i />
         </button>
 
-        {open ? (
-          <button
-            className="nav-scrim"
-            type="button"
-            aria-label="Close menu"
-            onClick={() => setOpen(false)}
-          />
-        ) : null}
-
-        <nav id="site-nav" className={open ? 'nav is-open' : 'nav'} aria-label="Main">
+        <nav className="nav nav--bar" aria-label="Main">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.end}
               className={({ isActive }) => (isActive ? 'nav__link is-active' : 'nav__link')}
-              onClick={() => setOpen(false)}
             >
               {link.label}
             </NavLink>
@@ -147,6 +138,31 @@ export default function Header() {
           </svg>
         </button>
       </div>
+
+      {createPortal(
+        <div className={open ? 'nav-layer is-open' : 'nav-layer'} hidden={!open}>
+          <button
+            className="nav-scrim"
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+          />
+          <nav id="site-nav" className="nav nav--drawer" aria-label="Mobile">
+            {links.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={link.end}
+                className={({ isActive }) => (isActive ? 'nav__link is-active' : 'nav__link')}
+                onClick={() => setOpen(false)}
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+        </div>,
+        document.body,
+      )}
 
       {search ? (
         <div className="search-layer" role="presentation" onClick={() => setSearch(false)}>
