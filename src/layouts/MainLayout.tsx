@@ -18,7 +18,7 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main">
         <Outlet />
       </main>
       <Footer />

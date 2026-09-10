@@ -6,7 +6,7 @@ import './HomePage.css'
 const stats = [
   { value: '23 DOF', label: 'Height' },
   { value: '35kg', label: 'Weight' },
-  { value: '2h field runtime', label: 'Endurance' },
+  { value: '2h field', subValue: 'runtime', label: 'Endurance' },
 ]
 
 const homeSections = [
@@ -149,80 +149,97 @@ export default function HomePage() {
         ))}
       </nav>
 
-      <section
-        id="home"
-        className="hero"
-        ref={heroRef}
-        onPointerMove={onMove}
-        onPointerLeave={() => {
-          heroRef.current?.style.setProperty('--mx', '0px')
-          heroRef.current?.style.setProperty('--my', '0px')
-        }}
-      >
-        <p className="hero__mark" aria-hidden="true">HARVEST G1</p>
-        <img className="hero__robot" src="/hero-robot.png" alt="HARVEST G1 field robot" />
-        <div className="hero__copy">
-          <p>Intelligent robot</p>
-          <h1>RWA Field Data Robot</h1>
-          <div className="stats">
-            {stats.map((item) => (
-              <article key={item.label}>
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </article>
-            ))}
+      <div className="product-showcase">
+        <section
+          id="home"
+          className="hero"
+          ref={heroRef}
+          onPointerMove={onMove}
+          onPointerLeave={() => {
+            heroRef.current?.style.setProperty('--mx', '0px')
+            heroRef.current?.style.setProperty('--my', '0px')
+          }}
+        >
+          <div className="hero__mark-wrap" aria-hidden="true">
+            <span className="hero__mark hero__mark--left">HARVEST</span>
+            <span className="hero__mark hero__mark--right">G1</span>
           </div>
-        </div>
-      </section>
+          <img className="hero__robot" src="/cowboys.png" alt="HARVEST G1 field robot" />
+          <div className="hero__copy">
+            <p>Intelligent robot</p>
+            <h1>RWA Field Data Robot</h1>
+            <div className="stats">
+              {stats.map((item) => (
+                <article key={item.label}>
+                  <div className="stats__value">
+                    <strong>{item.value}</strong>
+                    {'subValue' in item && item.subValue ? (
+                      <strong className="stats__sub">{item.subValue}</strong>
+                    ) : null}
+                  </div>
+                  <span>{item.label}</span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      <section id="design" className="perception">
-        <span className="frame tl" />
-        <span className="frame tr" />
-        <span className="frame bl" />
-        <span className="frame br" />
+        <section id="design" className="perception">
+          <span className="frame tl" aria-hidden="true" />
+          <span className="frame tr" aria-hidden="true" />
+          <span className="frame bl" aria-hidden="true" />
+          <span className="frame br" aria-hidden="true" />
 
-        <div className="perception__left">
-          <p>Advanced perception and motors in interfacial centers maslicision state</p>
-          <svg className="leader" viewBox="0 0 180 70" aria-hidden="true">
-            <path d="M6 14 H90 L174 62" />
+          <div className="perception__grid">
+            <svg className="perception__leaders" viewBox="0 0 880 125" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M132 22 H172 V42 H182" />
+              <path d="M132 96 H172 V74 H182" />
+              <path d="M798 24 H838 V72 H768" />
+            </svg>
+
+            <div className="perception__left">
+              <p className="perception__callout perception__callout--left">
+                Advanced perception and motors in interfacial centers maslicision state
+              </p>
+              <img className="perception__img perception__img--lens" src="/left1.png" alt="" />
+            </div>
+
+            <div className="perception__copy">
+              <p className="kicker">Fullfillable equipment</p>
+              <h2>Advanced Perception and Dynamic Interaction</h2>
+              <p>
+                The program integrates hardware force rensors and motor electric current to meet the end force
+                requirements, achieving better sensitivity and reliability. Foot waterproof and dustproof, easy to
+                replace after wear and tear
+              </p>
+            </div>
+
+            <div className="perception__right">
+              <p className="perception__callout perception__callout--right">Data exploded sensor module</p>
+              <img className="perception__img perception__img--module" src="/right.png" alt="" />
+            </div>
+          </div>
+        </section>
+
+        <section id="specs" className="specs">
+          <p className="specs__mark" aria-hidden="true">HARVEST-G1</p>
+          <svg className="specs__lines" viewBox="0 0 1000 640" aria-hidden="true">
+            <path d="M330 150 H410 L470 205" />
+            <path d="M770 90 H640 L545 185" />
+            <path d="M190 520 H340 L430 480" />
+            <path d="M810 540 H660 L570 495" />
           </svg>
-          <LensGraphic />
-        </div>
-
-        <div className="perception__copy">
-          <p className="kicker">Fullfillable equipment</p>
-          <h2>Advanced Perception and Dynamic Interaction</h2>
-          <p>
-            The program integrates hardware force rensors and motor electric current to meet the end force
-            requirements, achieving better sensitivity and reliability. Foot waterproof and dustproof, easy to
-            replace after wear and tear
+          <img className="specs__robot" src="/specsrobotnew.png" alt="HARVEST G1 full body" />
+          <p className="note note-tl">
+            HARVEST
+            <small>Extiation grade cross roller bearings.</small>
           </p>
-        </div>
-
-        <div className="perception__right">
-          <p>Data exploded sensor module</p>
-          <ExplodedGraphic />
-        </div>
-      </section>
-
-      <section id="specs" className="specs">
-        <p className="specs__mark" aria-hidden="true">HARVEST-G1</p>
-        <svg className="specs__lines" viewBox="0 0 1000 640" aria-hidden="true">
-          <path d="M210 200 H340 L430 250" />
-          <path d="M790 175 H650 L560 230" />
-          <path d="M200 430 H340 L430 400" />
-          <path d="M800 445 H650 L560 405" />
-        </svg>
-        <img className="specs__robot" src="/specsrobotnew.png" alt="HARVEST G1 full body" />
-        <p className="note note-tl">
-          HARVEST
-          <small>Extiation grade cross roller bearings.</small>
-        </p>
-        <p className="note note-tr">Integrated force sensors at each sensors and motor electric sensors</p>
-        <p className="note note-bl">Persom sensors sensors and son motor electric sensors</p>
-        <p className="note note-br">Docallant precader with tear medules</p>
-        <p className="note note-ft">industrial grade cross roller bearings</p>
-      </section>
+          <p className="note note-tr">Integrated force sensors at each sensors and motor electric sensors</p>
+          <p className="note note-bl">Persom sensors sensors and son motor electric sensors</p>
+          <p className="note note-br">Docallant precader with tear medules</p>
+          <p className="note note-ft">industrial grade cross roller bearings</p>
+        </section>
+      </div>
 
       <section id="tech" className="spec-grid">
         <article className="spec spec--gold spec--signals">
@@ -321,13 +338,6 @@ export default function HomePage() {
           <article>
             <span>2050</span>
             <p>Morgan Stanley’s long-run picture: ~1 billion humanoids, about <em>$5T</em> in yearly revenue.</p>
-          </article>
-          <article className="growth-visual">
-            <img src="/loco-card.png" alt="" />
-            <div>
-              <span>Cannot be scraped</span>
-              <p>Deployed robots later generate more data while working — a flywheel text never had.</p>
-            </div>
           </article>
         </div>
       </section>
@@ -499,18 +509,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
-}
-
-function LensGraphic() {
-  return (
-    <svg className="lens" viewBox="0 0 120 120" aria-hidden="true">
-      <circle cx="60" cy="60" r="52" fill="#d8c4a4" />
-      <circle cx="60" cy="60" r="38" fill="#1c1c1c" />
-      <circle cx="60" cy="60" r="24" fill="#0b2a33" />
-      <circle cx="60" cy="60" r="14" fill="#041318" />
-      <circle cx="48" cy="46" r="6" fill="#9befff" opacity=".55" />
-    </svg>
   )
 }
 

@@ -1,19 +1,24 @@
 .footer {
   display: grid;
   justify-items: center;
-  gap: 0.55rem;
-  padding: 0 1rem 2rem;
-  color: #8a8174;
+  gap: 0.65rem;
+  margin-top: auto;
+  padding: 2rem var(--gutter) 2.25rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--muted);
   text-align: center;
+  background: linear-gradient(to bottom, transparent, rgb(243 234 219 / 35%));
 }
 
 .footer img {
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.4rem;
+  height: 2.4rem;
   object-fit: contain;
+  opacity: 0.92;
 }
 
 .footer p {
   margin: 0;
   font-size: 0.72rem;
+  letter-spacing: 0.02em;
 }
