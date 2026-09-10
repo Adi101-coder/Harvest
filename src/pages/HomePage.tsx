@@ -215,7 +215,9 @@ export default function HomePage() {
             </aside>
           </div>
         </section>
+      </div>
 
+      <div className="specs-showcase">
         <section id="specs" className="specs">
           <p className="specs__mark" aria-hidden="true">HARVEST-G1</p>
           <svg className="specs__lines" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
@@ -234,9 +236,8 @@ export default function HomePage() {
           <p className="note note-br">Docallant precader with tear medules</p>
           <p className="note note-ft">industrial grade cross roller bearings</p>
         </section>
-      </div>
 
-      <section id="tech" className="spec-grid">
+        <section id="tech" className="spec-grid">
         <article className="spec spec--gold spec--signals">
           <p>Real-world action</p>
           <h3>The mix you cannot scrape</h3>
@@ -317,7 +318,8 @@ export default function HomePage() {
             <span>short of {gapTargets[gapIndex].label}</span>
           </p>
         </article>
-      </section>
+        </section>
+      </div>
 
       <section id="contact" className="growth">
         <h2>RWA HUMANOIDS GROWTH PROJECTION</h2>
@@ -337,6 +339,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <div className="story-showcase">
       <section id="rwa" className="story">
         <div className="story__head">
           <p className="kicker">01 — Importance of RAW datasets</p>
@@ -503,6 +506,7 @@ export default function HomePage() {
           <Link className="story-more story-more--light" to="/marketplace#live">Open live marketplace feed</Link>
         </div>
       </section>
+      </div>
     </div>
   )
 }

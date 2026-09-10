@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import './Header.css'
 
 const links = [
@@ -24,9 +24,34 @@ function getHeroAnchor() {
 }
 
 export default function Header() {
+  const location = useLocation()
+  const navRef = useRef<HTMLElement>(null)
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState(false)
   const [searchAnchor, setSearchAnchor] = useState<{ top: number; left: number } | null>(null)
+  const [indicator, setIndicator] = useState({ left: 0, width: 0, ready: false })
+
+  useLayoutEffect(() => {
+    const nav = navRef.current
+    if (!nav) return
+
+    const move = () => {
+      const active = nav.querySelector<HTMLElement>('.nav__link.is-active')
+      if (!active) {
+        setIndicator((current) => ({ ...current, width: 0, ready: false }))
+        return
+      }
+      setIndicator({
+        left: active.offsetLeft,
+        width: active.offsetWidth,
+        ready: true,
+      })
+    }
+
+    move()
+    window.addEventListener('resize', move)
+    return () => window.removeEventListener('resize', move)
+  }, [location.pathname])
 
   useEffect(() => {
     const onResize = () => {
@@ -110,7 +135,7 @@ export default function Header() {
           <i />
         </button>
 
-        <nav className="nav nav--bar" aria-label="Main">
+        <nav ref={navRef} className="nav nav--bar" aria-label="Main">
           {links.map((link) => (
             <NavLink
               key={link.to}
@@ -121,6 +146,14 @@ export default function Header() {
               {link.label}
             </NavLink>
           ))}
+          <span
+            className={indicator.ready ? 'nav__indicator is-on' : 'nav__indicator'}
+            style={{
+              transform: `translateX(${indicator.left}px)`,
+              width: indicator.width,
+            }}
+            aria-hidden="true"
+          />
         </nav>
 
         <button

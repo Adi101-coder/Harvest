@@ -10,7 +10,9 @@
 .specs,
 .spec-grid,
 .growth,
-.story {
+.story,
+.specs-showcase,
+.story-showcase {
   position: relative;
 }
 
@@ -372,13 +374,20 @@ html.search-open #home.hero {
   animation: float 4.2s ease-in-out infinite;
 }
 
-/* ── specs panel ── */
+/* ── specs + bento in one panel ── */
+.specs-showcase {
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.85rem;
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+}
+
 .specs {
   isolation: isolate;
   overflow: hidden;
   min-height: clamp(36.8rem, 55.2vh, 46rem);
-  border-radius: var(--radius-lg);
-  background: var(--panel);
+  background: transparent;
 }
 
 .specs__mark {
@@ -435,17 +444,17 @@ html.search-open #home.hero {
   font-weight: 400;
 }
 
-.note-tr { top: 12%; right: 22%; text-align: left; }
+.note-tr { top: 12%; right: 22%; text-align: left; transform: translateX(180px); }
 .note-bl {
   top: 23.4%;
   left: 33%;
   width: max-content;
   max-width: 9rem;
   text-align: right;
-  transform: translateX(calc(-100% + 1px));
+  transform: translateX(calc(-100% + 1px)) translateY(-13px);
 }
 .note-br { bottom: 16%; right: 18%; text-align: left; }
-.note-ft { left: clamp(1rem, 4vw, 4.5%); bottom: 18%; }
+.note-ft { left: clamp(1rem, 4vw, 4.5%); bottom: 18%; transform: translateX(70px); }
 
 /* ── bento grid ── */
 .spec-grid {
@@ -453,7 +462,7 @@ html.search-open #home.hero {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: minmax(27rem, auto);
   gap: 0.85rem;
-  margin-top: 0.85rem;
+  margin: 0 0.85rem;
   align-items: stretch;
 }
 
@@ -750,8 +759,31 @@ html.search-open #home.hero {
 }
 
 /* ── story sections ── */
-.story {
+.story-showcase {
+  overflow: hidden;
   margin-top: var(--section-gap);
+  padding: clamp(1.5rem, 3.2vw, 2.6rem) clamp(1.2rem, 3vw, 2.25rem);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+}
+
+.story-showcase .story {
+  margin-top: 0;
+  padding: clamp(1.6rem, 3vw, 2.4rem) 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.story-showcase .story:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.story-showcase .story:last-child {
+  padding-bottom: 0;
+}
+
+.nvidia {
+  margin-top: 0;
 }
 
 .story__head h2,
@@ -829,8 +861,6 @@ html.search-open #home.hero {
   line-height: 1;
   letter-spacing: -0.06em;
 }
-
-.nvidia { margin-top: 2.4rem; }
 
 .nvidia-card {
   min-height: 22rem;
@@ -1342,7 +1372,12 @@ html.search-open #home.hero {
 
   .perception { padding: 1.6rem 0.75rem; }
 
-  .specs,
+  .spec-grid {
+    margin-inline: 0.65rem;
+  }
+
+  .specs-showcase,
+  .story-showcase,
   .spec {
     border-radius: 1.1rem;
   }
