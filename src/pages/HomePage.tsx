@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, PointerEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { smoothScrollToId } from '../utils/scroll'
 import './HomePage.css'
 
 const stats = [
@@ -110,7 +111,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const id = window.location.hash.replace('#', '')
-    if (id) document.getElementById(id)?.scrollIntoView()
+    if (id) smoothScrollToId(id)
   }, [])
 
   useEffect(() => {
@@ -191,33 +192,33 @@ export default function HomePage() {
           <span className="frame br" aria-hidden="true" />
 
           <div className="perception__grid">
-            <svg className="perception__leaders" viewBox="0 0 880 125" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M132 22 H172 V42 H182" />
-              <path d="M132 96 H172 V74 H182" />
-              <path d="M798 24 H838 V72 H768" />
-            </svg>
-
-            <div className="perception__left">
-              <p className="perception__callout perception__callout--left">
-                Advanced perception and motors in interfacial centers maslicision state
+            <aside className="perception__side perception__side--left">
+              <p className="perception__callout">
+                Advanced perception and motors in interfacial centers precision state
               </p>
               <img className="perception__img perception__img--lens" src="/left1.png" alt="" />
-            </div>
+              <svg className="perception__leader" viewBox="0 0 120 36" aria-hidden="true">
+                <path d="M4 28 H52 V14 H72" />
+              </svg>
+            </aside>
 
             <div className="perception__copy">
-              <p className="kicker">Fullfillable equipment</p>
+              <p className="kicker">Fulfillable equipment</p>
               <h2>Advanced Perception and Dynamic Interaction</h2>
               <p>
-                The program integrates hardware force rensors and motor electric current to meet the end force
-                requirements, achieving better sensitivity and reliability. Foot waterproof and dustproof, easy to
+                The program integrates hardware force sensors and motor electric current to meet the end force
+                requirements, achieving better sensitivity and reliability. Fully waterproof and dustproof, easy to
                 replace after wear and tear
               </p>
             </div>
 
-            <div className="perception__right">
-              <p className="perception__callout perception__callout--right">Data exploded sensor module</p>
+            <aside className="perception__side perception__side--right">
+              <p className="perception__callout">Data exploded sensor module</p>
+              <svg className="perception__leader" viewBox="0 0 120 36" aria-hidden="true">
+                <path d="M4 8 H52 V28 H88" />
+              </svg>
               <img className="perception__img perception__img--module" src="/right.png" alt="" />
-            </div>
+            </aside>
           </div>
         </section>
 

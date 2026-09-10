@@ -219,49 +219,21 @@
 .perception::after { bottom: 0.9rem; }
 
 .perception__grid {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(6.5rem, 8.5rem) minmax(18rem, 34rem) minmax(7rem, 10.5rem);
-  grid-template-rows: auto auto;
-  align-items: end;
-  justify-content: center;
-  column-gap: clamp(2.48rem, 4.97vw, 3.73rem);
-  row-gap: 0.4rem;
-  width: fit-content;
-  max-width: 100%;
+  grid-template-columns: minmax(9rem, 1fr) minmax(20rem, 36rem) minmax(9rem, 1fr);
+  align-items: center;
+  gap: clamp(1.75rem, 3.5vw, 2.75rem);
+  max-width: 54rem;
   margin: 0 auto;
 }
 
-.perception__leaders {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.perception__leaders path {
-  fill: none;
-  stroke: #b7ab99;
-  stroke-width: 1;
-}
-
-.perception__callout,
-.perception__img,
 .perception__copy {
   position: relative;
-  z-index: 1;
-}
-
-.perception__copy {
-  grid-column: 2;
-  grid-row: 1 / 3;
-  align-self: center;
+  z-index: 2;
   max-width: 34rem;
-  margin: 0;
+  margin: 0 auto;
   text-align: center;
+  background: var(--bg);
 }
 
 .kicker {
@@ -302,13 +274,25 @@
   line-height: 1.55;
 }
 
-.perception__left,
-.perception__right {
-  display: contents;
+.perception__side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.perception__side--left {
+  align-items: flex-end;
+  justify-self: end;
+}
+
+.perception__side--right {
+  align-items: flex-start;
+  justify-self: start;
 }
 
 .perception__callout {
   margin: 0;
+  max-width: 8.5rem;
   color: #6b6459;
   font-family: var(--font);
   font-size: 0.62rem;
@@ -316,20 +300,32 @@
   line-height: 1.4;
 }
 
-.perception__callout--left {
-  grid-column: 1;
-  grid-row: 1;
-  justify-self: end;
-  max-width: 8.25rem;
+.perception__side--left .perception__callout {
   text-align: right;
 }
 
-.perception__callout--right {
-  grid-column: 3;
-  grid-row: 1;
-  justify-self: start;
-  max-width: 8.5rem;
+.perception__side--right .perception__callout {
   text-align: left;
+}
+
+.perception__leader {
+  width: 6.75rem;
+  height: 2rem;
+  flex-shrink: 0;
+}
+
+.perception__leader path {
+  fill: none;
+  stroke: #b7ab99;
+  stroke-width: 1;
+}
+
+.perception__side--left .perception__leader {
+  align-self: flex-end;
+}
+
+.perception__side--right .perception__leader {
+  align-self: flex-start;
 }
 
 .perception__img {
@@ -338,24 +334,11 @@
 }
 
 .perception__img--lens {
-  grid-column: 1;
-  grid-row: 2;
-  justify-self: end;
-  align-self: start;
   width: 4.5rem;
 }
 
 .perception__img--module {
-  grid-column: 3;
-  grid-row: 2;
-  justify-self: start;
-  align-self: start;
   width: 7rem;
-}
-
-.leader {
-  width: 7.15rem;
-  height: 2.2rem;
 }
 
 .leader path,
@@ -1076,44 +1059,25 @@
 @media (max-width: 1080px) {
   .perception { min-height: 18.9rem; padding: 3.45rem 1rem 3.45rem; }
   .perception__grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
     gap: 1.75rem;
-    width: 100%;
+    max-width: none;
   }
 
-  .perception__left,
-  .perception__right {
-    display: flex;
-    flex-direction: column;
+  .perception__side--left,
+  .perception__side--right {
+    justify-self: center;
     align-items: center;
-    gap: 0.5rem;
-    width: 100%;
   }
 
-  .perception__copy {
-    grid-column: auto;
-    grid-row: auto;
-  }
-
-  .perception__copy h2 { white-space: normal; }
-
-  .perception__callout--left,
-  .perception__callout--right {
-    grid-column: auto;
-    grid-row: auto;
+  .perception__callout {
     max-width: 16rem;
     text-align: center;
   }
 
-  .perception__img--lens,
-  .perception__img--module {
-    grid-column: auto;
-    grid-row: auto;
-  }
+  .perception__copy h2 { white-space: normal; }
 
-  .perception__leaders {
+  .perception__leader {
     display: none;
   }
   .growth__grid,

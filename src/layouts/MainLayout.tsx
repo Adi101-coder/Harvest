@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { smoothScrollToId } from '../utils/scroll'
 
 export default function MainLayout() {
   const location = useLocation()
@@ -9,7 +10,7 @@ export default function MainLayout() {
   useEffect(() => {
     const id = location.hash.replace('#', '')
     if (id) {
-      document.getElementById(id)?.scrollIntoView()
+      smoothScrollToId(id)
       return
     }
     window.scrollTo(0, 0)
