@@ -134,7 +134,7 @@ export function SignalGlyph({ kind }: { kind: 'vision' | 'force' | 'motion' | 'l
 export function Flywheel({ active }: { active: number }) {
   const steps = ['Collect', 'Train', 'Deploy', 'Recapture']
   return (
-    <svg className="draw flywheel" viewBox="0 0 280 280" role="img" aria-label="Robot data flywheel">
+    <svg className="draw flywheel" viewBox="-32 -16 344 312" role="img" aria-label="Robot data flywheel">
       <circle cx="140" cy="140" r="88" fill="none" stroke="#e4d8c4" strokeWidth="18" />
       <circle
         cx="140"

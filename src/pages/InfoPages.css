@@ -322,6 +322,32 @@
 
 .flywheel circle { transition: stroke-dashoffset 320ms ease; }
 
+.fly-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.fly-panel > div {
+  width: 100%;
+  max-width: 42rem;
+}
+
+.fly-panel .chip-row {
+  justify-content: center;
+}
+
+.fly-panel .info__lead {
+  margin-inline: auto;
+}
+
+.fly-panel .flywheel {
+  width: min(100%, 24rem);
+  margin: 1.5rem auto 0;
+  overflow: visible;
+}
+
 .claim-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -632,7 +658,6 @@
   .gap-chart__row,
   .split-visual,
   .why-stage,
-  .fly-panel,
   .groot,
   .token-layout,
   .stack-grid,
@@ -641,6 +666,10 @@
   .pyramid-layout {
     grid-template-columns: 1fr;
     gap: 1.2rem;
+  }
+
+  .fly-panel .flywheel {
+    width: min(100%, 20.4rem);
   }
   .rwa-lab { grid-template-columns: 1fr; }
 }

@@ -199,9 +199,9 @@
 
 /* ── perception ── */
 .perception {
-  min-height: 14.3rem;
+  min-height: 16.45rem;
   margin: 0.85rem 0;
-  padding: 2.5rem clamp(1.5rem, 4vw, 3.5rem);
+  padding: 2.88rem clamp(1.5rem, 4vw, 3.5rem);
   background: transparent;
 }
 
@@ -374,7 +374,7 @@
 .specs {
   isolation: isolate;
   overflow: hidden;
-  min-height: clamp(32rem, 48vh, 40rem);
+  min-height: clamp(36.8rem, 55.2vh, 46rem);
   border-radius: var(--radius-lg);
   background: var(--panel);
 }
@@ -1074,7 +1074,7 @@
 }
 
 @media (max-width: 1080px) {
-  .perception { padding: 3rem 1rem 3rem; }
+  .perception { min-height: 18.9rem; padding: 3.45rem 1rem 3.45rem; }
   .perception__grid {
     display: flex;
     flex-direction: column;
@@ -1172,7 +1172,7 @@
     grid-auto-rows: minmax(22rem, auto);
   }
 
-  .specs { min-height: 28rem; }
+  .specs { min-height: 32.2rem; }
   .specs__robot { width: 72%; margin-top: 4rem; }
   .section-nav { top: var(--header-h); }
   .live__top { flex-direction: column; align-items: start; }
