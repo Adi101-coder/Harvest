@@ -197,9 +197,6 @@ export default function HomePage() {
                 Advanced perception and motors in interfacial centers precision state
               </p>
               <img className="perception__img perception__img--lens" src="/left1.png" alt="" />
-              <svg className="perception__leader" viewBox="0 0 120 36" aria-hidden="true">
-                <path d="M4 28 H52 V14 H72" />
-              </svg>
             </aside>
 
             <div className="perception__copy">
@@ -214,9 +211,6 @@ export default function HomePage() {
 
             <aside className="perception__side perception__side--right">
               <p className="perception__callout">Data exploded sensor module</p>
-              <svg className="perception__leader" viewBox="0 0 120 36" aria-hidden="true">
-                <path d="M4 8 H52 V28 H88" />
-              </svg>
               <img className="perception__img perception__img--module" src="/right.png" alt="" />
             </aside>
           </div>
@@ -224,7 +218,7 @@ export default function HomePage() {
 
         <section id="specs" className="specs">
           <p className="specs__mark" aria-hidden="true">HARVEST-G1</p>
-          <svg className="specs__lines" viewBox="0 0 1000 640" aria-hidden="true">
+          <svg className="specs__lines" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
             <path d="M330 150 H410 L470 205" />
             <path d="M770 90 H640 L545 185" />
             <path d="M190 520 H340 L430 480" />

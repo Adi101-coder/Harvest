@@ -91,13 +91,6 @@ export default function DocsPage() {
 
   return (
     <div className="info">
-      <nav className="info-nav" aria-label="Docs sections">
-        <a href="#claims">Claims</a>
-        <a href="#tasks">Tasks</a>
-        <a href="#pyramid">Pyramid</a>
-        <a href="#groot">GR00T</a>
-      </nav>
-
       <header className="info__hero">
         <p>02 — NVIDIA program</p>
         <h1>Built for the stack that trains physical AI.</h1>

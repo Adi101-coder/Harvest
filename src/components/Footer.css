@@ -3,7 +3,7 @@
   justify-items: center;
   gap: 0.65rem;
   margin-top: auto;
-  padding: 2rem var(--gutter) 2.25rem;
+  padding: 2rem max(var(--gutter), env(safe-area-inset-left)) calc(2.25rem + env(safe-area-inset-bottom)) max(var(--gutter), env(safe-area-inset-right));
   border-top: 1px solid var(--border-soft);
   color: var(--muted);
   text-align: center;

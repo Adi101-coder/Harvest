@@ -21,8 +21,8 @@
   --hero-display: "Gotham Bold", "Gotham", Montserrat, var(--font);
   --product: "DM Sans", var(--font);
   --mono: "IBM Plex Mono", ui-monospace, monospace;
-  --max: 100%;
-  --gutter: clamp(0.85rem, 1.5vw, 1.65rem);
+  --max: 100rem;
+  --gutter: clamp(0.9rem, 3.2vw, 1.65rem);
   --section-gap: clamp(2.75rem, 4vw, 3.75rem);
   --header-h: 4.5rem;
   --radius-sm: 0.75rem;
@@ -45,6 +45,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 0.35rem);
+  overflow-x: clip;
 }
 
 [id] {
@@ -53,7 +54,9 @@ html {
 
 body {
   margin: 0;
+  min-width: 0;
   min-height: 100vh;
+  overflow-x: clip;
   font-family: var(--font);
   color: var(--ink);
   background: var(--bg);
@@ -90,9 +93,11 @@ main {
 
 .page-title {
   margin: 0 0 0.65rem;
+  overflow-wrap: anywhere;
   font-size: clamp(1.85rem, 4vw, 2.65rem);
   letter-spacing: -0.04em;
   line-height: 1.08;
+  text-wrap: balance;
 }
 
 .page-lead {
@@ -127,13 +132,25 @@ a {
 }
 
 img {
-  max-width: 100%;
   display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+video,
+canvas {
+  max-width: 100%;
 }
 
 button,
 input {
   font: inherit;
+}
+
+input,
+textarea,
+select {
+  font-size: 1rem;
 }
 
 button {
@@ -190,6 +207,14 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-@media (max-width: 760px) {
-  :root { --header-h: 3.9rem; }
+@media (max-width: 960px) {
+  :root { --header-h: 4.1rem; }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-h: 3.75rem;
+    --radius-lg: 1.15rem;
+    --radius-md: 0.95rem;
+  }
 }

@@ -117,15 +117,6 @@ export default function DataPage() {
 
   return (
     <div className="info">
-      <nav className="info-nav" aria-label="Data sections">
-        <a href="#brief">Brief</a>
-        <a href="#market">Market</a>
-        <a href="#finite">Finite text</a>
-        <a href="#gap">Supply gap</a>
-        <a href="#why">Why it matters</a>
-        <a href="#signals">Signals</a>
-      </nav>
-
       <header id="brief" className="info__hero">
         <p>01 — Importance of RAW datasets</p>
         <h1>Robots cannot learn the world from the internet.</h1>
