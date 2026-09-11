@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, PointerEvent } from 'react'
 import { Link } from 'react-router-dom'
+import RobotViewer, { ROBOT_MODEL_SRC } from '../components/RobotViewer'
 import { smoothScrollToId } from '../utils/scroll'
 import './HomePage.css'
 
@@ -99,8 +100,11 @@ const gapTargets = [
   { label: 'general-purpose scale', hours: '100M', gap: '~250×', fill: 100 },
 ]
 
+const MODEL_SCALE = 0.655
+
 export default function HomePage() {
-  const heroRef = useRef<HTMLElement>(null)
+  const pageRef = useRef<HTMLDivElement>(null)
+  const [look, setLook] = useState({ x: 0, y: 0 })
   const [activeData, setActiveData] = useState(0)
   const [activeStep, setActiveStep] = useState(0)
   const [hours, setHours] = useState(400)
@@ -132,16 +136,26 @@ export default function HomePage() {
     return () => window.clearInterval(timer)
   }, [streaming])
 
-  const onMove = (event: PointerEvent<HTMLElement>) => {
+  const onMove = (event: PointerEvent<HTMLDivElement>) => {
     const box = event.currentTarget.getBoundingClientRect()
     const x = (event.clientX - box.left) / box.width - 0.5
     const y = (event.clientY - box.top) / box.height - 0.5
-    heroRef.current?.style.setProperty('--mx', `${x * 24}px`)
-    heroRef.current?.style.setProperty('--my', `${y * 12}px`)
+    pageRef.current?.style.setProperty('--mx', `${x * 20}px`)
+    pageRef.current?.style.setProperty('--my', `${y * 10}px`)
+    setLook({ x, y })
   }
 
   return (
-    <div className="page">
+    <div
+      className="page page--model-centric"
+      ref={pageRef}
+      onPointerMove={onMove}
+      onPointerLeave={() => {
+        pageRef.current?.style.setProperty('--mx', '0px')
+        pageRef.current?.style.setProperty('--my', '0px')
+        setLook({ x: 0, y: 0 })
+      }}
+    >
       <nav className="section-nav" aria-label="Home sections">
         {homeSections.map((item) => (
           <a key={item.href} href={item.href}>
@@ -150,47 +164,57 @@ export default function HomePage() {
         ))}
       </nav>
 
-      <div className="product-showcase">
-        <section
-          id="home"
-          className="hero"
-          ref={heroRef}
-          onPointerMove={onMove}
-          onPointerLeave={() => {
-            heroRef.current?.style.setProperty('--mx', '0px')
-            heroRef.current?.style.setProperty('--my', '0px')
-          }}
-        >
-          <div className="hero__mark-wrap" aria-hidden="true">
-            <span className="hero__mark hero__mark--left">HARVEST</span>
-            <span className="hero__mark hero__mark--right">G1</span>
-          </div>
-          <img className="hero__robot" src="/cowboys.png" alt="HARVEST G1 field robot" />
-          <div className="hero__copy">
-            <p>Intelligent robot</p>
-            <h1>RWA Field Data Robot</h1>
-            <div className="stats">
-              {stats.map((item) => (
-                <article key={item.label}>
-                  <div className="stats__value">
-                    <strong>{item.value}</strong>
-                    {'subValue' in item && item.subValue ? (
-                      <strong className="stats__sub">{item.subValue}</strong>
-                    ) : null}
-                  </div>
-                  <span>{item.label}</span>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+      <section id="home" className="hero orbit-row">
+        <header className="hero__intro">
+          <p>Intelligent robot</p>
+          <h1>RWA Field Data Robot</h1>
+        </header>
 
-        <section id="design" className="perception">
-          <span className="frame tl" aria-hidden="true" />
-          <span className="frame tr" aria-hidden="true" />
-          <span className="frame bl" aria-hidden="true" />
-          <span className="frame br" aria-hidden="true" />
+        <div className="model-stage" aria-hidden="true">
+          <div className="model-stage__mark">
+            <span className="hero__mark">HARVEST</span>
+            <span className="hero__mark hero__mark--accent">G1</span>
+          </div>
+          <RobotViewer
+            className="model-stage__viewer"
+            lookX={look.x}
+            lookY={look.y}
+            variant="hero"
+            modelSrc={ROBOT_MODEL_SRC}
+            modelScale={MODEL_SCALE}
+          />
+        </div>
 
+        <div className="hero__rail hero__rail--left stats">
+          {stats.slice(0, 2).map((item) => (
+            <article key={item.label}>
+              <div className="stats__value">
+                <strong>{item.value}</strong>
+                {'subValue' in item && item.subValue ? (
+                  <strong className="stats__sub">{item.subValue}</strong>
+                ) : null}
+              </div>
+              <span>{item.label}</span>
+            </article>
+          ))}
+        </div>
+        <div className="hero__rail hero__rail--right stats">
+          {stats.slice(2).map((item) => (
+            <article key={item.label}>
+              <div className="stats__value">
+                <strong>{item.value}</strong>
+                {'subValue' in item && item.subValue ? (
+                  <strong className="stats__sub">{item.subValue}</strong>
+                ) : null}
+              </div>
+              <span>{item.label}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="design" className="orbit-row orbit-row--left">
+        <article className="orbit-card perception">
           <div className="perception__grid">
             <aside className="perception__side perception__side--left">
               <p className="perception__callout">
@@ -214,31 +238,11 @@ export default function HomePage() {
               <img className="perception__img perception__img--module" src="/right.png" alt="" />
             </aside>
           </div>
-        </section>
-      </div>
+        </article>
+      </section>
 
-      <div className="specs-showcase">
-        <section id="specs" className="specs">
-          <p className="specs__mark" aria-hidden="true">HARVEST-G1</p>
-          <svg className="specs__lines" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M330 150 H410 L470 205" />
-            <path d="M770 90 H640 L545 185" />
-            <path d="M190 520 H340 L430 480" />
-            <path d="M810 540 H660 L570 495" />
-          </svg>
-          <img className="specs__robot" src="/specsrobotnew.png" alt="HARVEST G1 full body" />
-          <p className="note note-tl">
-            HARVEST
-            <small>Extiation grade cross roller bearings.</small>
-          </p>
-          <p className="note note-tr">Integrated force sensors at each sensors and motor electric sensors</p>
-          <p className="note note-bl">Persom sensors sensors and son motor electric sensors</p>
-          <p className="note note-br">Docallant precader with tear medules</p>
-          <p className="note note-ft">industrial grade cross roller bearings</p>
-        </section>
-
-        <section id="tech" className="spec-grid">
-        <article className="spec spec--gold spec--signals">
+      <section id="tech" className="orbit-row orbit-row--right">
+        <article className="orbit-card spec spec--gold spec--signals">
           <p>Real-world action</p>
           <h3>The mix you cannot scrape</h3>
           <div className="signal-list" role="tablist" aria-label="Capture channels">
@@ -257,8 +261,10 @@ export default function HomePage() {
           </div>
           <p className="signal-copy" aria-live="polite">{signals[activeSignal].copy}</p>
         </article>
+      </section>
 
-        <article className="spec spec--cream spec--power">
+      <section className="orbit-row orbit-row--left">
+        <article className="orbit-card spec spec--cream spec--power">
           <p>Electrica machinery</p>
           <h3>Stable Environmental Adaptation</h3>
           <div>
@@ -270,8 +276,10 @@ export default function HomePage() {
             <span>quick charge</span>
           </div>
         </article>
+      </section>
 
-        <div className="spec-stack">
+      <section className="orbit-row orbit-row--right">
+        <div className="orbit-card spec-stack">
           <article className="spec spec--cream spec--precise">
             <p>Precise Manipulation</p>
             <div className="spec-split">
@@ -290,8 +298,10 @@ export default function HomePage() {
             <ExplodedGraphic />
           </article>
         </div>
+      </section>
 
-        <article className="spec spec--gold spec--gap">
+      <section className="orbit-row orbit-row--left">
+        <article className="orbit-card spec spec--gold spec--gap">
           <p>Industry supply</p>
           <h3>~400k hrs</h3>
           <p className="gap-lead">Real robot hours across the whole industry. Text models trained on the equivalent of tens to hundreds of billions of hours.</p>
@@ -318,195 +328,204 @@ export default function HomePage() {
             <span>short of {gapTargets[gapIndex].label}</span>
           </p>
         </article>
-        </section>
-      </div>
-
-      <section id="contact" className="growth">
-        <h2>RWA HUMANOIDS GROWTH PROJECTION</h2>
-        <div className="growth__grid">
-          <article>
-            <span>2030</span>
-            <p>Revenue around <em>$7–15B</em>, led by factories and warehouse automation.</p>
-          </article>
-          <article>
-            <span>2035</span>
-            <p>Goldman’s updated case: 6.5 million units and <em>$138B</em> in market size.</p>
-          </article>
-          <article>
-            <span>2050</span>
-            <p>Morgan Stanley’s long-run picture: ~1 billion humanoids, about <em>$5T</em> in yearly revenue.</p>
-          </article>
-        </div>
       </section>
 
-      <div className="story-showcase">
-      <section id="rwa" className="story">
-        <div className="story__head">
-          <p className="kicker">01 — Importance of RAW datasets</p>
-          <h2>Robots cannot learn the world from the internet.</h2>
-        </div>
-        <p className="story__lead">
-          Embodied models need synchronized records of how machines see, move and touch. That data is scarce,
-          messy, and currently locked inside a few labs. Harvest makes real-world captures a public market.
-        </p>
-        <div className="rwa-lab">
-          <div className="rwa-lab__tabs" role="tablist" aria-label="Dataset types">
-            {dataTypes.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                role="tab"
-                aria-selected={activeData === index}
-                className={activeData === index ? 'is-on' : ''}
-                onClick={() => setActiveData(index)}
-              >
-                0{index + 1} {item.label}
-              </button>
-            ))}
+      <section id="contact" className="orbit-row orbit-row--right">
+        <article className="orbit-card growth">
+          <h2>RWA HUMANOIDS GROWTH PROJECTION</h2>
+          <div className="growth__grid">
+            <article>
+              <span>2030</span>
+              <p>Revenue around <em>$7–15B</em>, led by factories and warehouse automation.</p>
+            </article>
+            <article>
+              <span>2035</span>
+              <p>Goldman’s updated case: 6.5 million units and <em>$138B</em> in market size.</p>
+            </article>
+            <article>
+              <span>2050</span>
+              <p>Morgan Stanley’s long-run picture: ~1 billion humanoids, about <em>$5T</em> in yearly revenue.</p>
+            </article>
           </div>
-          <div className="rwa-lab__body" aria-live="polite">
-            <span>NETWORK VOLUME</span>
-            <strong>{dataTypes[activeData].value}</strong>
-            <p>{dataTypes[activeData].copy}</p>
-          </div>
-        </div>
-        <Link className="story-more" to="/data">Read the full RWA brief</Link>
+        </article>
       </section>
 
-      <section id="nvidia" className="story nvidia">
-        <div className="nvidia-card">
-          <p className="kicker kicker--light">02 — NVIDIA program</p>
-          <div className="nvidia-card__grid">
-            <div>
-              <h2>Built for the stack that trains physical AI.</h2>
-              <p>
-                Harvest pipelines are designed to sit next to NVIDIA simulation and accelerated-compute workflows —
-                so field captures can move into Isaac-class training loops without a custom glue layer every time.
-              </p>
-              <a href="https://www.nvidia.com/en-us/startups/" target="_blank" rel="noreferrer">
-                NVIDIA for Startups ↗
-              </a>
+      <section id="rwa" className="orbit-row orbit-row--left">
+        <article className="orbit-card story">
+          <div className="story__head">
+            <p className="kicker">01 — Importance of RAW datasets</p>
+            <h2>Robots cannot learn the world from the internet.</h2>
+          </div>
+          <p className="story__lead">
+            Embodied models need synchronized records of how machines see, move and touch. That data is scarce,
+            messy, and currently locked inside a few labs. Harvest makes real-world captures a public market.
+          </p>
+          <div className="rwa-lab">
+            <div className="rwa-lab__tabs" role="tablist" aria-label="Dataset types">
+              {dataTypes.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeData === index}
+                  className={activeData === index ? 'is-on' : ''}
+                  onClick={() => setActiveData(index)}
+                >
+                  0{index + 1} {item.label}
+                </button>
+              ))}
             </div>
-            <ul>
-              <li>
-                <strong>Isaac-ready captures</strong>
-                <span>Bridge real interactions into simulation-grade assets.</span>
-              </li>
-              <li>
-                <strong>GPU-scale processing</strong>
-                <span>Multimodal field logs processed at training throughput.</span>
-              </li>
-              <li>
-                <strong>OpenUSD-shaped worlds</strong>
-                <span>Reusable scene structure, not a pile of unlabeled clips.</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <Link className="story-more" to="/docs">Open the NVIDIA program</Link>
-      </section>
-
-      <section id="tokenization" className="story">
-        <div className="story__head">
-          <p className="kicker">03 — Holders data tokenization</p>
-          <h2>The people who capture the world should hold the asset.</h2>
-        </div>
-        <p className="story__lead">
-          Verified machine experience becomes a licensed data token. Holders keep provenance, set permissions,
-          and participate when a lab trains on what they collected.
-        </p>
-        <div className="token-box">
-          <label htmlFor="hours">
-            Verified task hours <strong>{hours} hrs</strong>
-          </label>
-          <input
-            id="hours"
-            type="range"
-            min="50"
-            max="2000"
-            step="50"
-            value={hours}
-            onChange={(event) => setHours(Number(event.target.value))}
-            style={{ '--range': `${((hours - 50) / 1950) * 100}%` } as CSSProperties}
-          />
-          <div className="token-box__value">
-            <span>ILLUSTRATIVE LICENSE VALUE</span>
-            <strong>${Math.round(hours * 2.75).toLocaleString()}<small> / cycle</small></strong>
-          </div>
-          <p>Estimate only. Actual value depends on quality, scarcity, task demand and license terms.</p>
-        </div>
-        <Link className="story-more" to="/about">How holders keep the asset</Link>
-      </section>
-
-      <section id="process" className="story">
-        <div className="story__head">
-          <p className="kicker">04 — Dataset selling / collecting process</p>
-          <h2>From fieldwork to a fair sale.</h2>
-        </div>
-        <div className="process">
-          <div className="process__list">
-            {processSteps.map((step, index) => (
-              <button
-                key={step.number}
-                type="button"
-                className={activeStep === index ? 'is-on' : ''}
-                onClick={() => setActiveStep(index)}
-              >
-                <span>{step.number}</span>
-                {step.title}
-              </button>
-            ))}
-          </div>
-          <div className="process__detail" aria-live="polite">
-            <span>{processSteps[activeStep].number}</span>
-            <h3>{processSteps[activeStep].title}</h3>
-            <p>{processSteps[activeStep].copy}</p>
-            <button
-              type="button"
-              className="next"
-              onClick={() => setActiveStep((current) => (current + 1) % processSteps.length)}
-            >
-              Next stage
-            </button>
-          </div>
-        </div>
-        <Link className="story-more" to="/marketplace">See collect → sell in full</Link>
-      </section>
-
-      <section id="live" className="story">
-        <div className="live">
-          <div className="live__top">
-            <div>
-              <p className="kicker kicker--light">05 — Realtime humanoid live updates</p>
-              <h2>Humanoids, learning live.</h2>
+            <div className="rwa-lab__body" aria-live="polite">
+              <span>NETWORK VOLUME</span>
+              <strong>{dataTypes[activeData].value}</strong>
+              <p>{dataTypes[activeData].copy}</p>
             </div>
-            <button
-              type="button"
-              className={streaming ? 'stream is-on' : 'stream'}
-              onClick={() => setStreaming((on) => !on)}
-            >
-              {streaming ? 'Live demo' : 'Demo paused'}
-            </button>
           </div>
-          <div className="live__feed">
-            {events.map((event, index) => (
-              <article key={`${event.location}-${event.time}-${index}`} className={index === 0 ? 'is-new' : ''}>
-                <div>
-                  <strong>{event.task}</strong>
-                  <span>{event.location}</span>
-                </div>
-                <div>
-                  <strong>{event.records}</strong>
-                  <span>{event.time}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-          <p className="live__note">Simulated telemetry for the landing page. Connect a live robot feed to replace this demo.</p>
-          <Link className="story-more story-more--light" to="/marketplace#live">Open live marketplace feed</Link>
-        </div>
+          <Link className="story-more" to="/data">Read the full RWA brief</Link>
+        </article>
       </section>
-      </div>
+
+      <section id="nvidia" className="orbit-row orbit-row--right">
+        <article className="orbit-card orbit-card--flush story nvidia">
+          <div className="nvidia-card">
+            <p className="kicker kicker--light">02 — NVIDIA program</p>
+            <div className="nvidia-card__grid">
+              <div>
+                <h2>Built for the stack that trains physical AI.</h2>
+                <p>
+                  Harvest pipelines are designed to sit next to NVIDIA simulation and accelerated-compute workflows —
+                  so field captures can move into Isaac-class training loops without a custom glue layer every time.
+                </p>
+                <a href="https://www.nvidia.com/en-us/startups/" target="_blank" rel="noreferrer">
+                  NVIDIA for Startups ↗
+                </a>
+              </div>
+              <ul>
+                <li>
+                  <strong>Isaac-ready captures</strong>
+                  <span>Bridge real interactions into simulation-grade assets.</span>
+                </li>
+                <li>
+                  <strong>GPU-scale processing</strong>
+                  <span>Multimodal field logs processed at training throughput.</span>
+                </li>
+                <li>
+                  <strong>OpenUSD-shaped worlds</strong>
+                  <span>Reusable scene structure, not a pile of unlabeled clips.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <Link className="story-more" to="/docs">Open the NVIDIA program</Link>
+        </article>
+      </section>
+
+      <section id="tokenization" className="orbit-row orbit-row--left">
+        <article className="orbit-card story">
+          <div className="story__head">
+            <p className="kicker">03 — Holders data tokenization</p>
+            <h2>The people who capture the world should hold the asset.</h2>
+          </div>
+          <p className="story__lead">
+            Verified machine experience becomes a licensed data token. Holders keep provenance, set permissions,
+            and participate when a lab trains on what they collected.
+          </p>
+          <div className="token-box">
+            <label htmlFor="hours">
+              Verified task hours <strong>{hours} hrs</strong>
+            </label>
+            <input
+              id="hours"
+              type="range"
+              min="50"
+              max="2000"
+              step="50"
+              value={hours}
+              onChange={(event) => setHours(Number(event.target.value))}
+              style={{ '--range': `${((hours - 50) / 1950) * 100}%` } as CSSProperties}
+            />
+            <div className="token-box__value">
+              <span>ILLUSTRATIVE LICENSE VALUE</span>
+              <strong>${Math.round(hours * 2.75).toLocaleString()}<small> / cycle</small></strong>
+            </div>
+            <p>Estimate only. Actual value depends on quality, scarcity, task demand and license terms.</p>
+          </div>
+          <Link className="story-more" to="/about">How holders keep the asset</Link>
+        </article>
+      </section>
+
+      <section id="process" className="orbit-row orbit-row--right">
+        <article className="orbit-card story">
+          <div className="story__head">
+            <p className="kicker">04 — Dataset selling / collecting process</p>
+            <h2>From fieldwork to a fair sale.</h2>
+          </div>
+          <div className="process">
+            <div className="process__list">
+              {processSteps.map((step, index) => (
+                <button
+                  key={step.number}
+                  type="button"
+                  className={activeStep === index ? 'is-on' : ''}
+                  onClick={() => setActiveStep(index)}
+                >
+                  <span>{step.number}</span>
+                  {step.title}
+                </button>
+              ))}
+            </div>
+            <div className="process__detail" aria-live="polite">
+              <span>{processSteps[activeStep].number}</span>
+              <h3>{processSteps[activeStep].title}</h3>
+              <p>{processSteps[activeStep].copy}</p>
+              <button
+                type="button"
+                className="next"
+                onClick={() => setActiveStep((current) => (current + 1) % processSteps.length)}
+              >
+                Next stage
+              </button>
+            </div>
+          </div>
+          <Link className="story-more" to="/marketplace">See collect → sell in full</Link>
+        </article>
+      </section>
+
+      <section id="live" className="orbit-row orbit-row--left">
+        <article className="orbit-card orbit-card--flush story">
+          <div className="live">
+            <div className="live__top">
+              <div>
+                <p className="kicker kicker--light">05 — Realtime humanoid live updates</p>
+                <h2>Humanoids, learning live.</h2>
+              </div>
+              <button
+                type="button"
+                className={streaming ? 'stream is-on' : 'stream'}
+                onClick={() => setStreaming((on) => !on)}
+              >
+                {streaming ? 'Live demo' : 'Demo paused'}
+              </button>
+            </div>
+            <div className="live__feed">
+              {events.map((event, index) => (
+                <article key={`${event.location}-${event.time}-${index}`} className={index === 0 ? 'is-new' : ''}>
+                  <div>
+                    <strong>{event.task}</strong>
+                    <span>{event.location}</span>
+                  </div>
+                  <div>
+                    <strong>{event.records}</strong>
+                    <span>{event.time}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <p className="live__note">Simulated telemetry for the landing page. Connect a live robot feed to replace this demo.</p>
+            <Link className="story-more story-more--light" to="/marketplace#live">Open live marketplace feed</Link>
+          </div>
+        </article>
+      </section>
     </div>
   )
 }
