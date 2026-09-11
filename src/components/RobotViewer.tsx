@@ -2,9 +2,10 @@ import { Component, Suspense, useCallback, useEffect, useMemo, useRef } from 're
 import type { ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Center, ContactShadows, Environment, useGLTF } from '@react-three/drei'
-import type { BufferGeometry, Group, Object3D, Scene, WebGLRenderer } from 'three'
+import type { Object3D, Scene, WebGLRenderer } from 'three'
 import {
   BufferAttribute,
+  BufferGeometry,
   Float32BufferAttribute,
   Mesh,
   Vector3,
@@ -66,7 +67,7 @@ function findNeckY(geometry: BufferGeometry) {
 }
 
 function extractTriangles(source: BufferGeometry, starts: number[]) {
-  const geometry = new source.constructor() as BufferGeometry
+  const geometry = new BufferGeometry()
   const names = Object.keys(source.attributes)
   for (const name of names) {
     const attr = source.getAttribute(name)
